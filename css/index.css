@@ -1,0 +1,144 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  font: 12px/1.5 "Microsoft YaHei", "Heiti SC", tahoma, arial,
+    "Hiragino Sans GB", "\5B8B\4F53", sans-serif;
+}
+ul > li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+.main {
+  background-color: #f0f0f0;
+}
+.main .container {
+  width: 1200px;
+  margin: 0 auto;
+}
+.main .container .brand-discovery .squar-title {
+  text-align: center;
+  padding-top: 42px;
+  padding-bottom: 24px;
+}
+.main .container .brand-discovery .squar-title h3 {
+  font-size: 26px;
+  line-height: 40px;
+  color: #2d2d2d;
+}
+.main .container .brand-discovery .category-nav .category-navul {
+  text-align: left;
+}
+.main .container .brand-discovery .category-nav .category-navul li {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 20px;
+  padding: 2px 30px;
+  color: #999c9c;
+}
+.main .container .brand-discovery .category-nav .category-navul li.selected {
+  color: #fff;
+  background: red;
+}
+.main .container .brand-discovery .brand-list {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.main .container .brand-discovery .brand-list .brand-list-item {
+  width: 288px;
+  height: 265px;
+  background-color: #fff;
+  box-shadow: 0 4px 5px -3px rgba(137, 137, 137, 0.2);
+  margin-bottom: 40px;
+  padding-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+.main .container .brand-discovery .brand-list .brand-list-item .img-contain {
+  width: 100%;
+  height: 174px;
+}
+.main .container .brand-discovery .brand-list .brand-list-item .img-contain a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main .container .brand-discovery .brand-list .brand-list-item .like-box {
+  flex: 1;
+  display: flex;
+  height: 30px;
+  justify-content: space-around;
+  align-items: center;
+}
+.main .container .brand-discovery .brand-list .brand-list-item .like-box li {
+  font-size: 14px;
+  vertical-align: middle;
+}
+.main .container .brand-discovery .brand-list .brand-list-item .buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+.main .container .brand-discovery .brand-list .brand-list-item .buttons a {
+  padding: 6px 30px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #e71f19;
+  border-radius: 20px;
+}
+
+/* 分割线 */
+
+.box {
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.box ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.box ul li {
+  width: 14%;
+  margin: 1% 0;
+}
+
+.box ul li p:nth-child(1) {
+  font-weight: 400;
+  font-size: 18px;
+  color: #333;
+}
+
+.box ul li p {
+  font-size: 14px;
+  padding: 3px 10px;
+  color: gray;
+  line-height: 20px;
+  text-align: center;
+  width: 30%;
+  margin: 0 auto;
+}
+
+.box ul .tab p:nth-child(1) {
+  background: red;
+  color: #fff !important;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.box ul .tab p {
+  color: red;
+}
+.box ul li:hover p {
+  color: red;
+}

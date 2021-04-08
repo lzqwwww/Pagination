@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css"
+    />
+    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/pagination.css" />
+  </head>
+  <body>
+    <header>
+      <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+      <script src="js/pagination.js"></script>
+    </header>
+    <main class="main">
+      <div class="container">
+        <!-- 发现品牌 -->
+        <div class="brand-discovery">
+          <div class="squar-title">
+            <h3>发现品牌</h3>
+          </div>
+          <div class="category-nav">
+            <ul class="category-navul">
+              <li data-name="0">精选</li>
+              <li data-name="1">缅甸花梨</li>
+            </ul>
+          </div>
+          <div class="brand-list"></div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="pagination"></div>
+      <form action="" id="page-go">
+        <input type="text" id="page-num" />
+        <input type="submit" id="goto" value="Go" />
+      </form>
+    </footer>
+  </body>
+  <script>
+    let liLists = selectorEle(".category-navul>li", true)
+    let brandList = selectorEle(".brand-list", false)
+    let currentCatogary
+    let prevCatogary
+    let totalPage
+    liLists.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        currentCatogary = e.target
+        prevCatogary = selectorEle(".category-navul .selected", false)
+        if (prevCatogary) {
+          removeClass(prevCatogary, "selected")
+        }
+        addClass(currentCatogary, "selected")
+        $.ajax({
+          url: `http://localhost:8080/api/brands/${currentCatogary.getAttribute(
+            "data-name"
+          )}`,
+          type: "get",
+          data: {
+            currentPage: 1,
+            pageSize: 4,
+          },
+          success(data) {
+            totalPage = data.pageTotal
+            const slp = new Pagination(data.pageTotal)
+            slp.init({
+              container: ".pagination",
+              maxShowBtnCount: 3,
+              onPageChange: (state) => {
+                console.log("pagination change:", state.pageNumber)
+                ;(currentCatogary = selectorEle(".category-navul .selected")),
+                  $.ajax({
+                    url: `http://localhost:8080/api/brands/${currentCatogary.getAttribute(
+                      "data-name"
+                    )}`,
+                    type: "get",
+                    data: {
+                      currentPage: state.pageNumber,
+                      pageSize: 4,
+                    },
+                    success(data) {
+                      renderBrandList(data.data)
+                    },
+                  })
+              },
+            })
+            document
+              .getElementById("page-go")
+              .addEventListener("submit", (e) => {
+                e.preventDefault()
+                slp.gotoPage(+document.getElementById("page-num").value)
+              })
+            renderBrandList(data.data)
+          },
+        })
+      })
+    })
+    liLists[0].click()
+    function renderBrandList(data) {
+      let brandListStr = ""
+      brandList.innerHTML = ""
+      data.forEach((item) => {
+        brandListStr += renderBrandListItem(
+          item.brand_logo,
+          item.brand_url,
+          item.brand_like
+        )
+      })
+      brandList.innerHTML = brandListStr
+    }
+    function renderBrandListItem(brand_logo, brand_url, brand_like) {
+      return `<div class="brand-list-item">
+              <div class="img-contain">
+                <a href=""
+                  ><img
+                    src="${brand_logo}"
+                /></a>
+              </div>
+              <ul class="like-box">
+                <li class="like">
+                  <img
+                    src="https://www.sopaigo.com/img/%e7%82%b9%e8%b5%9e.png"
+                  />
+                  <span>${brand_like}</span>
+                </li>
+                <li class="comment">
+                  <img
+                    src="https://www.sopaigo.com/img/%E8%AF%84%E4%BB%B7.png"
+                    alt=""
+                  />
+                  <span>评论</span>
+                </li>
+                <li class="interact">
+                  <img
+                    src="https://www.sopaigo.com/img/%E4%BA%92%E5%8A%A8.png"
+                    alt=""
+                  />
+                  <span>互动</span>
+                </li>
+              </ul>
+              <div class="buttons">
+                <a href="${brand_url}">进厂逛逛</a><a href="${brand_url}">展会特卖</a>
+              </div>
+            </div>`
+    }
+
+    function selectorEle(selector, all = false) {
+      return all
+        ? document.querySelectorAll(selector)
+        : document.querySelector(selector)
+    }
+    function addClass(eleObj, className) {
+      eleObj.classList.add(className)
+    }
+    function hasClass(eleObj, className) {
+      return eleObj.classList.contains(className)
+    }
+    function removeClass(eleObj, className) {
+      if (this.hasClass(eleObj, className)) {
+        eleObj.classList.remove(className)
+      }
+    }
+  </script>
+</html>
